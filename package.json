@@ -1,20 +1,15 @@
 {
-  "name": "pop-choice",
+  "name": "ai-travel-agent",
   "version": "0.1.0",
   "private": true,
+  "description": "AI Travel Agent — enter a location and dates, get a shareable trip page with LLM-generated flights, hotels, and activities, plus real weather. No database; OpenAI tool calling.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "tsx scripts/seedMovies.ts",
     "lint": "eslint"
   },
   "dependencies": {
-    "@langchain/textsplitters": "^1.0.1",
-    "@supabase/supabase-js": "^2.106.2",
-    "@upstash/ratelimit": "^2.0.8",
-    "@upstash/redis": "^1.38.0",
-    "langchain": "^1.4.2",
     "next": "16.2.6",
     "openai": "^6.39.1",
     "react": "19.2.4",

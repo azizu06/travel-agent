@@ -1,21 +1,10 @@
 import "./globals.css";
-import { Carter_One, Roboto_Slab } from "next/font/google";
 import type { Metadata } from "next";
 
-const carterOne = Carter_One({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-carter-one",
-});
-
-const robotoSlab = Roboto_Slab({
-  subsets: ["latin"],
-  variable: "--font-roboto-slab",
-});
-
 export const metadata: Metadata = {
-  title: "PopChoice",
-  description: "Movie recommendations for groups powered by semantic search.",
+  title: "AI Travel Agent",
+  description:
+    "Enter a location and dates to get a shareable trip page with flights, hotels, activities, and real weather.",
 };
 
 export default function RootLayout({
@@ -25,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${carterOne.variable} ${robotoSlab.variable}`}>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

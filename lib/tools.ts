@@ -1,4 +1,5 @@
 import { openai } from "./openai";
+import type { FunctionTool } from "openai/resources/responses/responses";
 
 type Forecast = {
   list: {
@@ -7,10 +8,11 @@ type Forecast = {
   }[];
 };
 
-export const getWeather = async (city: string) => {
+const getWeather = async (city: string) => {
   const geo = await fetch(
     `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.WEATHER_API_KEY}`,
   ).then((r) => r.json());
+  if (!geo) return;
   const { lat, lon } = geo[0];
   const forecast = (await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.WEATHER_API_KEY}`,
@@ -37,16 +39,19 @@ export const generateImage = async (city: string) => {
   return Buffer.from(b64, "base64");
 };
 
-export const tools = {
-  type: "function",
-  name: "getWeather",
-  description: "Given a city, find the weather data.",
-  parameters: {
-    type: "object",
-    properties: { city: { type: "string" } },
-    required: ["city"],
+export const tools: FunctionTool[] = [
+  {
+    type: "function",
+    name: "getWeather",
+    description: "Given a city, find the weather data.",
+    strict: null,
+    parameters: {
+      type: "object",
+      properties: { city: { type: "string" } },
+      required: ["city"],
+    },
   },
-};
+];
 
 export const toolFns = {
   getWeather: (args: { city: string }) => getWeather(args.city),

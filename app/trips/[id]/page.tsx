@@ -48,7 +48,7 @@ export default async function TripPlan({
         </div>
         <div className="itin-hero-scrim" aria-hidden="true" />
 
-        <header className="topbar on-sky itin-topbar wrap">
+        <header className="topbar on-sky itin-topbar">
           <Link className="brand" href="/" aria-label="Meridian home">
             <span className="brand-mark" aria-hidden="true">
               <svg viewBox="0 0 32 32" width="30" height="30" fill="none">

@@ -1,8 +1,5 @@
 import { openai } from "./openai";
-import type {
-  FunctionTool,
-  ResponseInputItem,
-} from "openai/resources/responses/responses";
+import type { FunctionTool } from "openai/resources/responses/responses";
 
 type Forecast = {
   list: {

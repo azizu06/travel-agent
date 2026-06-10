@@ -128,7 +128,7 @@ export default function TripForm() {
             step="50"
             placeholder="2,800"
             aria-describedby="budget-hint"
-            value={budget}
+            value={budget || ""}
             onChange={(e) =>
               setBudget(Math.min(1_000_000, Math.max(0, Number(e.target.value))))
             }

@@ -145,10 +145,23 @@ export default function TripForm() {
           type="submit"
           className="btn btn-primary btn-lg btn-block"
         >
-          {pending ? "Planning..." : "Plan my Trip!"}
-          <svg className="i arr" viewBox="0 0 24 24" width="20" height="20">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
+          {pending ? (
+            <>
+              Planning
+              <span className="dots" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+            </>
+          ) : (
+            <>
+              Plan my Trip!
+              <svg className="i arr" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </>
+          )}
         </button>
       </div>
       <p className="form-foot">

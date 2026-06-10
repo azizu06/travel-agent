@@ -460,6 +460,57 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
 .itin-restart { text-align: center; margin-top: var(--s-8); }
 
+/* top scrim so the brand logo stays legible over bright photos */
+.itin-hero::after {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 130px; z-index: -1;
+  background: linear-gradient(180deg, oklch(15% 0.03 265 / 0.55), transparent);
+  pointer-events: none;
+}
+
+/* weather panel */
+.wx { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-5); margin-top: var(--s-4); }
+.wx-temp { display: flex; align-items: baseline; gap: 0.35rem; font-variant-numeric: tabular-nums; }
+.wx-temp b { font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; }
+.wx-temp .lo { color: var(--muted); font-size: var(--t-body); }
+.wx-conds { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cond {
+  padding: 0.3rem 0.75rem; border-radius: var(--r-pill);
+  background: var(--sea-quiet); color: var(--sea);
+  font-size: var(--t-cap); font-weight: 600;
+}
+
+/* option list (flights / hotels) */
+.opts { display: grid; gap: var(--s-3); margin-top: var(--s-2); }
+.opt {
+  display: flex; gap: var(--s-4); justify-content: space-between; align-items: flex-start;
+  padding: var(--s-4); border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--surface-2);
+  transition: border-color .2s var(--ease), transform .15s var(--ease);
+}
+.opt:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.opt-main { min-width: 0; }
+.opt-title { font-weight: 600; letter-spacing: -0.01em; }
+.opt-sub { color: var(--muted); font-size: var(--t-sm); margin-top: 0.15rem; }
+.opt-note { color: var(--fg-soft); font-size: var(--t-sm); margin-top: 0.45rem; line-height: 1.5; }
+.opt-price { flex: none; text-align: right; }
+.opt-price b { font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.opt-price span { display: block; color: var(--muted); font-size: var(--t-cap); margin-top: 0.1rem; }
+.opt-book { margin-top: var(--s-3); padding: 0.5rem 0.9rem; font-size: var(--t-sm); }
+
+/* activities: title + detail */
+.acts .act-title { font-weight: 600; letter-spacing: -0.005em; }
+.acts .act-detail { color: var(--fg-soft); font-size: var(--t-sm); margin-top: 0.15rem; line-height: 1.5; }
+
+/* loading dots */
+.dots { display: inline-flex; align-items: center; gap: 3px; margin-left: 4px; }
+.dots span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: dot-bounce 1s infinite ease-in-out both; }
+.dots span:nth-child(2) { animation-delay: 0.15s; }
+.dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+
 /* ============================== ICON HELPERS ============================== */
 .i { width: 1.25em; height: 1.25em; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .i-sm { width: 18px; height: 18px; }

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd=$(jq -r \".tool_input.command // \\\"\\\"\"); if printf \"%s\" \"$cmd\" | grep -Eq \"git[[:space:]]+(commit|push)\"; then printf \"%s\" \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Docs check: a git commit/push just ran. Review what changed (git show / git diff HEAD~1) and decide whether README.md needs updating — update it if public behavior, setup steps, env vars, npm scripts, or user-facing features changed; otherwise skip silently. Advisory only.\\\"}}\"; fi",
+            "statusMessage": "Checking if docs need an update…"
+          }
+        ]
+      }
+    ]
+  }
+}

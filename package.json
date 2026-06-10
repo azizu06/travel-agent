@@ -10,8 +10,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.68",
+    "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "@vercel/blob": "^2.4.0",
+    "ai": "^6.0.197",
     "next": "16.2.6",
     "openai": "^6.39.1",
     "react": "19.2.4",

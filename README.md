@@ -68,7 +68,7 @@ Form ──submit──▶ addTrip (Server Action)
 | Weather | **OpenWeatherMap** (geocoding + 5-day forecast) |
 | Storage | **Upstash Redis** (trip data) · **Vercel Blob** (image) |
 | Safety | IP rate limiting (Upstash) · prompt-injection hardening · Zod bounds |
-| UX | Server Actions + `useActionState` (inline error states) |
+| UX | Server Actions + `useActionState` (inline error states) · light/dark theme (system-aware, toggle) |
 
 ## Getting started
 
@@ -97,12 +97,13 @@ npm run lint
 ```
 app/
   page.tsx               # landing hero + trip form (client toggle)
-  layout.tsx             # fonts (Fraunces + Inter), theme
+  layout.tsx             # fonts (Fraunces + Plus Jakarta Sans), light/dark theme init
   globals.css            # "Dusk Horizon" tokens + component styles
   trips/[id]/page.tsx    # itinerary result (server component)
   trips/[id]/not-found.tsx
 components/
   tripForm.tsx           # the form (Server Action + useActionState)
+  themeToggle.tsx        # light/dark switch (persists to localStorage)
   shareButton.tsx        # copy-link button
 lib/
   actions.ts             # addTrip Server Action (orchestration)
@@ -119,8 +120,8 @@ lib/
 - OpenWeatherMap's free forecast is ~5 days out, so far-future trips get a general
   weather summary rather than an exact forecast.
 - Flights/hotels are fabricated by the LLM — there's no real inventory or booking.
-- Each submit calls an LLM + image model; the per-IP rate limit (5/hour) keeps cost
-  and abuse in check.
+- Each submit calls an LLM + image model; a per-IP rate limit (3 per 6 hours) plus
+  low-quality image generation keep cost and abuse in check.
 
 ---
 

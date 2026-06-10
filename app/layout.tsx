@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     "Enter a location and dates to get a shareable trip page with flights, hotels, activities, and real weather.",
 };
 
+// Runs before first paint to set the theme from a saved choice (or the OS
+// preference), so there's no flash of the wrong theme before React hydrates.
+const themeInit = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,9 +33,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="light"
       className={`${jakarta.variable} ${fraunces.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
       <body>{children}</body>
     </html>
   );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redis } from "@/lib/redis";
 import { FinalPlanSchema } from "@/lib/schemas";
 import ShareButton from "@/components/shareButton";
+import ThemeToggle from "@/components/themeToggle";
 import { notFound } from "next/navigation";
 
 const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
@@ -62,6 +63,9 @@ export default async function TripPlan({
               <b>Meri</b>dian
             </span>
           </Link>
+          <div className="topbar-actions">
+            <ThemeToggle />
+          </div>
         </header>
 
         <div className="wrap" style={{ position: "relative", zIndex: 2 }}>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import TripForm from "@/components/tripForm";
+import ThemeToggle from "@/components/themeToggle";
 
 function BrandMark({ accent = "var(--gold)" }: { accent?: string }) {
   return (
@@ -34,6 +35,9 @@ export default function Home() {
                 <b>Meri</b>dian
               </span>
             </span>
+            <div className="topbar-actions">
+              <ThemeToggle />
+            </div>
           </header>
 
           <div className="hero-body wrap">
@@ -137,6 +141,7 @@ export default function Home() {
           </span>
         </button>
         <div className="topbar-actions">
+          <ThemeToggle />
           <button
             type="button"
             className="ghost-link"

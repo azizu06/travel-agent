@@ -64,6 +64,9 @@
   /* — Radii — */
   --r-xs: 8px; --r-sm: 12px; --r-md: 16px; --r-lg: 22px; --r-xl: 30px; --r-pill: 999px;
 
+  /* — Shared form-control height (keeps inputs + stepper uniform) — */
+  --field-h: 3.5rem;
+
   /* — Shadows (cool-navy tinted, never pure black) — */
   --sh-1: 0 1px 2px oklch(40% 0.03 260 / 0.06), 0 1px 1px oklch(40% 0.03 260 / 0.04);
   --sh-2: 0 4px 14px oklch(36% 0.04 262 / 0.08), 0 1px 3px oklch(36% 0.04 262 / 0.06);
@@ -318,7 +321,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (min-width: 560px) { .row2 { grid-template-columns: 1fr 1fr; } }
 
 .control {
-  width: 100%; padding: 0.85rem 1rem; font: inherit; font-size: var(--t-body); color: var(--fg);
+  width: 100%; height: var(--field-h); padding: 0 1rem; font: inherit; font-size: var(--t-body); color: var(--fg);
   background: var(--surface-2); border: 1.5px solid var(--border-strong); border-radius: var(--r-sm);
   transition: border-color .18s var(--ease), box-shadow .18s var(--ease), background-color .18s var(--ease);
   -webkit-appearance: none; appearance: none;
@@ -341,12 +344,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
 /* stepper */
 .stepper {
-  display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.35rem;
-  background: var(--surface-2); border: 1.5px solid var(--border-strong); border-radius: var(--r-pill);
+  display: flex; width: 100%; height: var(--field-h); align-items: center;
+  justify-content: space-between; gap: 0.25rem; padding: 0.3rem;
+  background: var(--surface-2); border: 1.5px solid var(--border-strong); border-radius: var(--r-sm);
 }
 .step-btn {
-  width: 44px; height: 44px; flex: none; display: grid; place-items: center;
-  border-radius: var(--r-pill); border: none; background: var(--surface); color: var(--fg);
+  width: 40px; height: 40px; flex: none; display: grid; place-items: center;
+  border-radius: var(--r-xs); border: none; background: var(--surface); color: var(--fg);
   box-shadow: var(--sh-1);
   transition: transform .12s var(--ease), background-color .18s var(--ease), color .18s var(--ease);
 }
@@ -360,9 +364,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .step-val::-webkit-outer-spin-button, .step-val::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .step-val:focus-visible { box-shadow: none; }
-.step-meta { display: inline-flex; align-items: baseline; gap: 0.5rem; margin-left: 0.9rem; vertical-align: middle; }
-.step-meta .u { font-size: var(--t-body); color: var(--fg-soft); }
-.stepper-wrap { display: flex; align-items: center; flex-wrap: wrap; }
 
 .form-actions { margin-top: var(--s-6); }
 .form-foot { margin-top: var(--s-4); text-align: center; font-size: var(--t-sm); color: var(--fg-soft); }

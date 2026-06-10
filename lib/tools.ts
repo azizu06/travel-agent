@@ -33,6 +33,7 @@ export const generateImage = async (city: string) => {
     model: "gpt-image-1",
     n: 1,
     size: "1024x1024",
+    quality: "low",
     prompt,
   });
   const b64 = img.data?.[0].b64_json;

@@ -1,5 +1,9 @@
+import Link from "next/link";
+import Image from "next/image";
 import { redis } from "@/lib/redis";
-import { TripPlanSchema } from "@/lib/schemas";
+import { FinalPlanSchema } from "@/lib/schemas";
+import ShareButton from "@/components/shareButton";
+
 export default async function TripPlan({
   params,
 }: {
@@ -7,50 +11,171 @@ export default async function TripPlan({
 }) {
   const { id } = await params;
   const raw = await redis.get(`travel:${id}`);
-  const { error, data: trip, success } = TripPlanSchema.safeParse(raw);
+  const { error, data: trip, success } = FinalPlanSchema.safeParse(raw);
   if (!success) {
     console.error(error);
     return;
   }
   return (
-    <main className="flex flex-col justify-center gap-2">
-      <h1>Your Trip</h1>
-      <div className="flex flex-col gap-1 justify-center">
-        <div className="flex gap-1">
-          <p>{trip.depart}</p>
-          <p>{trip.arrive}</p>
+    <main className="itin-screen screen-in" aria-label="Your itinerary">
+      <section className="itin-hero">
+        <div className="itin-hero-photo">
+          <Image
+            src={trip.destUrl}
+            alt={`Photo of ${trip.dest}`}
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: "cover" }}
+          />
         </div>
-        <p>
-          {trip.origin} - {trip.dest}
-        </p>
+        <div className="itin-hero-scrim" aria-hidden="true" />
+
+        <header className="topbar on-sky itin-topbar wrap">
+          <Link className="brand" href="/" aria-label="AI Travel Agent home">
+            <span className="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="30" height="30" fill="none">
+                <circle cx="16" cy="16" r="14.5" stroke="currentColor" strokeOpacity="0.5" />
+                <path d="M16 3 C9 11 9 21 16 29 C23 21 23 11 16 3Z" stroke="currentColor" strokeWidth="1.4" />
+                <path d="M3 16 H29" stroke="currentColor" strokeWidth="1.4" />
+                <circle cx="16" cy="16" r="2.4" fill="var(--gold)" />
+              </svg>
+            </span>
+            <span className="brand-name">
+              <b>AI</b> Travel Agent
+            </span>
+          </Link>
+        </header>
+
+        <div className="wrap" style={{ position: "relative", zIndex: 2 }}>
+          <div className="itin-hero-content">
+            <span className="eyebrow" style={{ color: "var(--gold)" }}>
+              Your itinerary · drafted by AI Travel Agent
+            </span>
+            <h1 className="itin-route">
+              <span>{trip.origin}</span>
+              <em className="arrow" aria-label="to">
+                →
+              </em>
+              <span>{trip.dest}</span>
+            </h1>
+            <div className="itin-meta">
+              <span className="chip">
+                <svg className="i i-sm" viewBox="0 0 24 24">
+                  <rect x="3" y="4.5" width="18" height="17" rx="2.5" />
+                  <path d="M3 9h18M8 2.5v4M16 2.5v4" />
+                </svg>
+                <span>
+                  {trip.depart} – {trip.arrive}
+                </span>
+              </span>
+            </div>
+            <div className="itin-actions">
+              <ShareButton />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="wrap">
+        <div className="itin-body">
+          {/* Weather */}
+          <article className="icard">
+            <div className="icard-head">
+              <span className="icard-ic">
+                <svg className="i i-md" viewBox="0 0 24 24">
+                  <circle cx="9" cy="9" r="3.4" />
+                  <path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M14.3 3.7l-1.4 1.4M5.1 12.9l-1.4 1.4" />
+                  <path d="M22 18a3 3 0 0 0-3-3 4.2 4.2 0 0 0-8 .2A3.2 3.2 0 0 0 11.5 21H19a3 3 0 0 0 3-3Z" />
+                </svg>
+              </span>
+              <h3>Weather</h3>
+            </div>
+            <p>{trip.weather}</p>
+          </article>
+
+          {/* Flights */}
+          <article className="icard accent">
+            <div className="icard-head">
+              <span className="icard-ic">
+                <svg className="i i-md" viewBox="0 0 24 24">
+                  <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
+                </svg>
+              </span>
+              <h3>Flights</h3>
+              <span className="tag">Round trip</span>
+            </div>
+            <p>{trip.flights}</p>
+            <div className="icard-foot">
+              <button className="btn btn-quiet" type="button">
+                Book
+                <svg className="i i-sm" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M7 17 17 7M9 7h8v8" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          {/* Hotel */}
+          <article className="icard">
+            <div className="icard-head">
+              <span className="icard-ic">
+                <svg className="i i-md" viewBox="0 0 24 24">
+                  <path d="M3 21V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v15" />
+                  <path d="M14 10h6a1 1 0 0 1 1 1v10" />
+                  <path d="M2 21h20M6.5 9h3M6.5 13h3M6.5 17h3M17 14h1M17 18h1" />
+                </svg>
+              </span>
+              <h3>Hotel</h3>
+            </div>
+            <p>{trip.hotel}</p>
+            <div className="icard-foot">
+              <button className="btn btn-quiet" type="button">
+                Book
+                <svg className="i i-sm" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M7 17 17 7M9 7h8v8" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          {/* Activities */}
+          <article className="icard span-2">
+            <div className="icard-head">
+              <span className="icard-ic">
+                <svg className="i i-md" viewBox="0 0 24 24">
+                  <path d="M9 11l2.5 2.5L16 9" />
+                  <rect x="3.5" y="4.5" width="17" height="16" rx="2.5" />
+                  <path d="M8 2.5v4M16 2.5v4M3.5 9.5h17" />
+                </svg>
+              </span>
+              <h3>Activities</h3>
+              <span className="tag">Picks for your pace</span>
+            </div>
+            <ul className="acts">
+              {trip.activities.map((activity: string, i: number) => (
+                <li key={i}>
+                  <span className="check">
+                    <svg className="i" viewBox="0 0 24 24" width="13" height="13">
+                      <path d="M5 12l4 4L19 6" />
+                    </svg>
+                  </span>
+                  <div>{activity}</div>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+        <div className="itin-restart">
+          <Link className="btn btn-quiet" href="/">
+            <svg className="i i-sm" viewBox="0 0 24 24" width="16" height="16">
+              <path d="M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4" />
+            </svg>
+            Plan another trip
+          </Link>
+        </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <h2>Weather</h2>
-        <p>{trip.weather}</p>
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2>Flights</h2>
-        <p>{trip.flights}</p>
-        <button className="border rounded-lg p-2 justify-center flex">
-          Book
-        </button>
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2>Hotel</h2>
-        <p>{trip.hotel}</p>
-        <button className="border rounded-lg p-2 justify-center flex">
-          Book
-        </button>
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2>Hotel</h2>
-        <ul>
-          {trip.activities.map((activity: string, i: number) => (
-            <li key={i}>{activity}</li>
-          ))}
-        </ul>
-      </div>
-      <img src="#" alt="trip destination" />
     </main>
   );
 }

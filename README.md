@@ -22,7 +22,8 @@ A solo learning project: built to practice **LLM agents + function/tool calling*
 
 1. **You fill a short form** — travellers, origin, destination, dates, budget.
 2. **An AI agent plans the trip.** It calls a live **weather tool**, then returns a
-   structured plan: flights, hotel, a weather summary, and activities.
+   structured plan: **2–3 flight & hotel options** (with prices), a weather summary
+   with high/low temps and conditions, and a set of activities.
 3. **A destination image is generated** in parallel and stored.
 4. **You land on a shareable itinerary page** at `/trips/<id>` — copy the link and
    send it to your travel party.

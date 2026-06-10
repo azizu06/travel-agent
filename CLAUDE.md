@@ -6,7 +6,7 @@
 
 AI Travel Agent is a **Next.js 16 App Router** app. A user enters a **location**
 and **start/end dates**, and an AI agent assembles a **shareable trip page**:
-LLM-fabricated flight and hotel options, **real** weather from Open-Meteo,
+LLM-fabricated flight and hotel options, **real** weather from OpenWeatherMap,
 weather-aware activity ideas, and an AI-generated destination image.
 
 The defining piece is a **hand-written OpenAI tool-calling agent loop** (planned
@@ -50,5 +50,9 @@ structure.
 
 ## Environment
 
-`.env.local` (see `.env.example`): `OPENAI_API_KEY` (required, server-only).
-Weather is from Open-Meteo, which needs no key. No DB/Redis vars.
+`.env.local` (see `.env.example`), all server-only:
+- `OPENAI_API_KEY` — text plan (AI SDK) + destination image (gpt-image-1).
+- `WEATHER_API_KEY` — OpenWeatherMap (geocoding + 5-day forecast).
+- `BLOB_READ_WRITE_TOKEN` — Vercel Blob (stores the destination image).
+- `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — Upstash Redis (stores
+  the trip under `travel:<id>`, also backs IP rate limiting).

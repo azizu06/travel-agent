@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const TripFormSchema = z.object({
-  numPeople: z.coerce.number(),
-  budget: z.coerce.number(),
-  depart: z.string().min(1),
-  arrive: z.string().min(1),
-  origin: z.string().min(1),
-  dest: z.string().min(1),
+  numPeople: z.coerce.number().min(1).max(20),
+  budget: z.coerce.number().min(0).max(1_000_000),
+  depart: z.string().min(1).max(20),
+  arrive: z.string().min(1).max(20),
+  origin: z.string().min(1).max(80).trim(),
+  dest: z.string().min(1).max(80).trim(),
 });
 
 export const TripPlanSchema = TripFormSchema.omit({
@@ -18,5 +18,6 @@ export const TripPlanSchema = TripFormSchema.omit({
   hotel: z.string().min(1),
   activities: z.array(z.string().min(1)),
 });
+export const FinalPlanSchema = TripPlanSchema.extend({ destUrl: z.url() });
 
 export type TripForm = z.infer<typeof TripFormSchema>;

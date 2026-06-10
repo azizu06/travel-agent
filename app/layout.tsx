@@ -1,23 +1,22 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jakarta",
   display: "swap",
 });
 
-const instrument = Instrument_Serif({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: "400",
   style: ["normal", "italic"],
-  variable: "--font-instrument",
+  variable: "--font-fraunces",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "AI Travel Agent — your journey, composed",
+  title: "Meridian — journeys, composed",
   description:
     "Enter a location and dates to get a shareable trip page with flights, hotels, activities, and real weather.",
 };
@@ -31,7 +30,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
-      className={`${inter.variable} ${instrument.variable}`}
+      className={`${jakarta.variable} ${fraunces.variable}`}
     >
       <body>{children}</body>
     </html>

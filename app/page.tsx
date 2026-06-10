@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import TripForm from "@/components/tripFrom";
+import TripForm from "@/components/tripForm";
 
 function BrandMark({ accent = "var(--gold)" }: { accent?: string }) {
   return (
@@ -20,18 +20,18 @@ export default function Home() {
 
   if (!formPage) {
     return (
-      <main aria-label="AI Travel Agent — welcome">
+      <main aria-label="Meridian — welcome">
         <section className="hero">
           <div className="hero-sky" aria-hidden="true" />
           <div className="hero-sun" aria-hidden="true" />
           <div className="hero-grain" aria-hidden="true" />
           <div className="hero-horizon" aria-hidden="true" />
 
-          <header className="topbar on-sky wrap">
+          <header className="topbar on-sky">
             <span className="brand">
               <BrandMark />
               <span className="brand-name">
-                <b>AI</b> Travel Agent
+                <b>Meri</b>dian
               </span>
             </span>
           </header>
@@ -123,7 +123,7 @@ export default function Home() {
 
   return (
     <main className="form-screen screen-in" aria-label="Design your journey">
-      <header className="topbar wrap">
+      <header className="topbar">
         <button
           type="button"
           className="brand"
@@ -133,7 +133,7 @@ export default function Home() {
         >
           <BrandMark accent="var(--accent)" />
           <span className="brand-name">
-            <b>AI</b> Travel Agent
+            <b>Meri</b>dian
           </span>
         </button>
         <div className="topbar-actions">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redis } from "@/lib/redis";
 import { FinalPlanSchema } from "@/lib/schemas";
 import ShareButton from "@/components/shareButton";
+import { notFound } from "next/navigation";
 
 export default async function TripPlan({
   params,
@@ -11,11 +12,8 @@ export default async function TripPlan({
 }) {
   const { id } = await params;
   const raw = await redis.get(`travel:${id}`);
-  const { error, data: trip, success } = FinalPlanSchema.safeParse(raw);
-  if (!success) {
-    console.error(error);
-    return;
-  }
+  const { data: trip, success } = FinalPlanSchema.safeParse(raw);
+  if (!success) notFound();
   return (
     <main className="itin-screen screen-in" aria-label="Your itinerary">
       <section className="itin-hero">
@@ -31,18 +29,28 @@ export default async function TripPlan({
         </div>
         <div className="itin-hero-scrim" aria-hidden="true" />
 
-        <header className="topbar on-sky itin-topbar wrap">
-          <Link className="brand" href="/" aria-label="AI Travel Agent home">
+        <header className="topbar on-sky itin-topbar">
+          <Link className="brand" href="/" aria-label="Meridian home">
             <span className="brand-mark" aria-hidden="true">
               <svg viewBox="0 0 32 32" width="30" height="30" fill="none">
-                <circle cx="16" cy="16" r="14.5" stroke="currentColor" strokeOpacity="0.5" />
-                <path d="M16 3 C9 11 9 21 16 29 C23 21 23 11 16 3Z" stroke="currentColor" strokeWidth="1.4" />
+                <circle
+                  cx="16"
+                  cy="16"
+                  r="14.5"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                />
+                <path
+                  d="M16 3 C9 11 9 21 16 29 C23 21 23 11 16 3Z"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                />
                 <path d="M3 16 H29" stroke="currentColor" strokeWidth="1.4" />
                 <circle cx="16" cy="16" r="2.4" fill="var(--gold)" />
               </svg>
             </span>
             <span className="brand-name">
-              <b>AI</b> Travel Agent
+              <b>Meri</b>dian
             </span>
           </Link>
         </header>
@@ -50,7 +58,7 @@ export default async function TripPlan({
         <div className="wrap" style={{ position: "relative", zIndex: 2 }}>
           <div className="itin-hero-content">
             <span className="eyebrow" style={{ color: "var(--gold)" }}>
-              Your itinerary · drafted by AI Travel Agent
+              Your itinerary · drafted by Meridian
             </span>
             <h1 className="itin-route">
               <span>{trip.origin}</span>
@@ -94,28 +102,6 @@ export default async function TripPlan({
             <p>{trip.weather}</p>
           </article>
 
-          {/* Flights */}
-          <article className="icard accent">
-            <div className="icard-head">
-              <span className="icard-ic">
-                <svg className="i i-md" viewBox="0 0 24 24">
-                  <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
-                </svg>
-              </span>
-              <h3>Flights</h3>
-              <span className="tag">Round trip</span>
-            </div>
-            <p>{trip.flights}</p>
-            <div className="icard-foot">
-              <button className="btn btn-quiet" type="button">
-                Book
-                <svg className="i i-sm" viewBox="0 0 24 24" width="16" height="16">
-                  <path d="M7 17 17 7M9 7h8v8" />
-                </svg>
-              </button>
-            </div>
-          </article>
-
           {/* Hotel */}
           <article className="icard">
             <div className="icard-head">
@@ -132,7 +118,39 @@ export default async function TripPlan({
             <div className="icard-foot">
               <button className="btn btn-quiet" type="button">
                 Book
-                <svg className="i i-sm" viewBox="0 0 24 24" width="16" height="16">
+                <svg
+                  className="i i-sm"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                >
+                  <path d="M7 17 17 7M9 7h8v8" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          {/* Flights */}
+          <article className="icard accent">
+            <div className="icard-head">
+              <span className="icard-ic">
+                <svg className="i i-md" viewBox="0 0 24 24">
+                  <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
+                </svg>
+              </span>
+              <h3>Flights</h3>
+              <span className="tag">Round trip</span>
+            </div>
+            <p>{trip.flights}</p>
+            <div className="icard-foot">
+              <button className="btn btn-quiet" type="button">
+                Book
+                <svg
+                  className="i i-sm"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                >
                   <path d="M7 17 17 7M9 7h8v8" />
                 </svg>
               </button>
@@ -140,7 +158,7 @@ export default async function TripPlan({
           </article>
 
           {/* Activities */}
-          <article className="icard span-2">
+          <article className="icard">
             <div className="icard-head">
               <span className="icard-ic">
                 <svg className="i i-md" viewBox="0 0 24 24">
@@ -156,7 +174,12 @@ export default async function TripPlan({
               {trip.activities.map((activity: string, i: number) => (
                 <li key={i}>
                   <span className="check">
-                    <svg className="i" viewBox="0 0 24 24" width="13" height="13">
+                    <svg
+                      className="i"
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                    >
                       <path d="M5 12l4 4L19 6" />
                     </svg>
                   </span>

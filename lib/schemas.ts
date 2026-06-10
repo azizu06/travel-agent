@@ -9,15 +9,16 @@ export const TripFormSchema = z.object({
   dest: z.string().min(1).max(80).trim(),
 });
 
-export const TripPlanSchema = TripFormSchema.omit({
-  numPeople: true,
-  budget: true,
-}).extend({
+export const GeneratedPlanSchema = z.object({
   flights: z.string().min(1),
   weather: z.string().min(1),
   hotel: z.string().min(1),
   activities: z.array(z.string().min(1)),
 });
-export const FinalPlanSchema = TripPlanSchema.extend({ destUrl: z.url() });
+
+export const FinalPlanSchema = TripFormSchema.omit({
+  numPeople: true,
+  budget: true,
+}).extend({ ...GeneratedPlanSchema.shape, destUrl: z.url() });
 
 export type TripForm = z.infer<typeof TripFormSchema>;

@@ -15,11 +15,12 @@ export const getWeather = async (city: string) => {
   const geo = await fetch(
     `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${process.env.WEATHER_API_KEY}`,
   ).then((r) => r.json());
-  if (!geo) return;
+  if (!Array.isArray(geo) || geo.length === 0) return null;
   const { lat, lon } = geo[0];
-  const forecast = (await fetch(
+  const forecast: Forecast = await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.WEATHER_API_KEY}`,
-  ).then((r) => r.json())) as Forecast;
+  ).then((r) => r.json());
+  if (!forecast?.list?.length) return null;
   const temps = forecast.list.map((f) => f.main.temp);
   const minTemp = Math.round(Math.min(...temps));
   const maxTemp = Math.round(Math.max(...temps));

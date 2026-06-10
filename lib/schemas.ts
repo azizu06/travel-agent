@@ -9,11 +9,38 @@ export const TripFormSchema = z.object({
   dest: z.string().min(1).max(80).trim(),
 });
 
+// What the model is asked to generate (structured so the UI can render rich
+// lists instead of walls of text). Counts are guided by the prompt, not hard
+// min/max bounds, so a slightly-off response still validates.
 export const GeneratedPlanSchema = z.object({
-  flights: z.string().min(1),
-  weather: z.string().min(1),
-  hotel: z.string().min(1),
-  activities: z.array(z.string().min(1)),
+  weather: z.object({
+    summary: z.string().min(1),
+    highF: z.number(),
+    lowF: z.number(),
+    conditions: z.array(z.string().min(1)),
+  }),
+  flights: z.array(
+    z.object({
+      airline: z.string().min(1),
+      route: z.string().min(1), // e.g. "JFK → LIS · 1 stop · ~9h"
+      priceUsd: z.number(), // per traveller
+      note: z.string().min(1),
+    }),
+  ),
+  hotels: z.array(
+    z.object({
+      name: z.string().min(1),
+      area: z.string().min(1),
+      pricePerNightUsd: z.number(),
+      note: z.string().min(1),
+    }),
+  ),
+  activities: z.array(
+    z.object({
+      title: z.string().min(1),
+      detail: z.string().min(1),
+    }),
+  ),
 });
 
 export const FinalPlanSchema = TripFormSchema.omit({

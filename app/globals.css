@@ -384,8 +384,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .itin-screen { padding-bottom: var(--s-12); }
 .itin-hero {
   position: relative; overflow: clip; isolation: isolate;
-  min-height: 56svh; display: flex; flex-direction: column; justify-content: flex-end;
-  color: oklch(98% 0.01 90); padding: var(--s-6) 0 var(--s-8);
+  min-height: 56svh; display: flex; flex-direction: column; justify-content: space-between;
+  color: oklch(98% 0.01 90); padding: var(--s-5) 0 var(--s-8);
 }
 .itin-hero-photo {
   position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center;

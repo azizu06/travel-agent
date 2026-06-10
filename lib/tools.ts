@@ -1,5 +1,8 @@
 import { openai } from "./openai";
-import type { FunctionTool } from "openai/resources/responses/responses";
+import type {
+  FunctionTool,
+  ResponseInputItem,
+} from "openai/resources/responses/responses";
 
 type Forecast = {
   list: {
@@ -8,9 +11,9 @@ type Forecast = {
   }[];
 };
 
-const getWeather = async (city: string) => {
+export const getWeather = async (city: string) => {
   const geo = await fetch(
-    `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.WEATHER_API_KEY}`,
+    `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${process.env.WEATHER_API_KEY}`,
   ).then((r) => r.json());
   if (!geo) return;
   const { lat, lon } = geo[0];

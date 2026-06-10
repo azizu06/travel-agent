@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import TripForm from "@/components/tripFrom";
 export default function Home() {

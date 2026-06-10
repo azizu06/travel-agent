@@ -1,3 +1,4 @@
+"use client";
 import { addTrip } from "@/lib/actions";
 import { useState } from "react";
 export default function FormPage() {
@@ -10,9 +11,19 @@ export default function FormPage() {
       <div className="flex flex-col justify-center">
         <label htmlFor="numPeople">Number of travellers</label>
         <div className="flex justify-around">
-          <button onClick={() => setNumPpl((p) => p - 1)}>-</button>
-          <input type="number" name="numPeople" id="numPeople" value={numPpl} />
-          <button onClick={() => setNumPpl((p) => p + 1)}>-</button>
+          <button type="button" onClick={() => setNumPpl((p) => p - 1)}>
+            -
+          </button>
+          <input
+            type="number"
+            name="numPeople"
+            id="numPeople"
+            value={numPpl}
+            onChange={(e) => setNumPpl(Number(e.target.value))}
+          />
+          <button type="button" onClick={() => setNumPpl((p) => p + 1)}>
+            +
+          </button>
         </div>
       </div>
       <div className="flex flex-col justify-center gap-1">

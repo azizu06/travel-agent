@@ -17,5 +17,6 @@ export const TripPlanSchema = TripFormSchema.omit({
   weather: z.string().min(1),
   hotel: z.string().min(1),
   activities: z.array(z.string().min(1)),
-  destUrl: z.url(),
 });
+
+export type TripForm = z.infer<typeof TripFormSchema>;

@@ -7,6 +7,21 @@ import { notFound } from "next/navigation";
 
 const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const fmtRange = (a: string, b: string) => {
+  const [ya, ma, da] = a.split("-").map(Number);
+  const [yb, mb, db] = b.split("-").map(Number);
+  if (!ya || !ma || !da || !yb || !mb || !db) return `${a} – ${b}`;
+  const right = `${MONTHS[mb - 1]} ${db}, ${yb}`;
+  return ya === yb
+    ? `${MONTHS[ma - 1]} ${da} – ${right}`
+    : `${MONTHS[ma - 1]} ${da}, ${ya} – ${right}`;
+};
+
+// Capitalise the first letter of each word (users may type "new york").
+const titleCase = (s: string) =>
+  s.replace(/(^|\s)(\p{L})/gu, (_, sp, c) => sp + c.toUpperCase());
+
 export default async function TripPlan({
   params,
 }: {
@@ -55,11 +70,11 @@ export default async function TripPlan({
               Your itinerary · drafted by Meridian
             </span>
             <h1 className="itin-route">
-              <span>{trip.origin}</span>
+              <span>{titleCase(trip.origin)}</span>
               <em className="arrow" aria-label="to">
                 →
               </em>
-              <span>{trip.dest}</span>
+              <span>{titleCase(trip.dest)}</span>
             </h1>
             <div className="itin-meta">
               <span className="chip">
@@ -67,9 +82,7 @@ export default async function TripPlan({
                   <rect x="3" y="4.5" width="18" height="17" rx="2.5" />
                   <path d="M3 9h18M8 2.5v4M16 2.5v4" />
                 </svg>
-                <span>
-                  {trip.depart} – {trip.arrive}
-                </span>
+                <span>{fmtRange(trip.depart, trip.arrive)}</span>
               </span>
             </div>
             <div className="itin-actions">
@@ -123,14 +136,14 @@ export default async function TripPlan({
             <div className="opts">
               {flights.map((f, i) => (
                 <div className="opt" key={i}>
-                  <div className="opt-main">
-                    <div className="opt-title">{f.airline}</div>
-                    <div className="opt-sub">{f.route}</div>
-                    <div className="opt-note">{f.note}</div>
-                  </div>
-                  <div className="opt-price">
-                    <b>{usd(f.priceUsd)}</b>
-                    <span>per traveller</span>
+                  <div className="opt-title">{f.airline}</div>
+                  <div className="opt-sub">{f.route}</div>
+                  <div className="opt-note">{f.note}</div>
+                  <div className="opt-foot">
+                    <div className="opt-price">
+                      <b>{usd(f.priceUsd)}</b>
+                      <span>per traveller</span>
+                    </div>
                     <button className="btn btn-quiet opt-book" type="button">
                       Book
                     </button>
@@ -156,14 +169,14 @@ export default async function TripPlan({
             <div className="opts">
               {hotels.map((h, i) => (
                 <div className="opt" key={i}>
-                  <div className="opt-main">
-                    <div className="opt-title">{h.name}</div>
-                    <div className="opt-sub">{h.area}</div>
-                    <div className="opt-note">{h.note}</div>
-                  </div>
-                  <div className="opt-price">
-                    <b>{usd(h.pricePerNightUsd)}</b>
-                    <span>per night</span>
+                  <div className="opt-title">{h.name}</div>
+                  <div className="opt-sub">{h.area}</div>
+                  <div className="opt-note">{h.note}</div>
+                  <div className="opt-foot">
+                    <div className="opt-price">
+                      <b>{usd(h.pricePerNightUsd)}</b>
+                      <span>per night</span>
+                    </div>
                     <button className="btn btn-quiet opt-book" type="button">
                       Book
                     </button>

@@ -479,23 +479,30 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   font-size: var(--t-cap); font-weight: 600;
 }
 
-/* option list (flights / hotels) */
-.opts { display: grid; gap: var(--s-3); margin-top: var(--s-2); }
+/* option list (flights / hotels) — clearly separated cards */
+.opts { display: grid; gap: var(--s-4); margin-top: var(--s-4); }
 .opt {
-  display: flex; gap: var(--s-4); justify-content: space-between; align-items: flex-start;
-  padding: var(--s-4); border: 1px solid var(--border); border-radius: var(--r-md);
-  background: var(--surface-2);
-  transition: border-color .2s var(--ease), transform .15s var(--ease);
+  display: flex; flex-direction: column;
+  padding: var(--s-4) var(--s-5);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--surface); box-shadow: var(--sh-1);
+  transition: border-color .2s var(--ease), transform .15s var(--ease), box-shadow .2s var(--ease);
 }
-.opt:hover { border-color: var(--border-strong); transform: translateY(-1px); }
-.opt-main { min-width: 0; }
+.opt:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--sh-2); }
 .opt-title { font-weight: 600; letter-spacing: -0.01em; }
-.opt-sub { color: var(--muted); font-size: var(--t-sm); margin-top: 0.15rem; }
-.opt-note { color: var(--fg-soft); font-size: var(--t-sm); margin-top: 0.45rem; line-height: 1.5; }
-.opt-price { flex: none; text-align: right; }
-.opt-price b { font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.opt-price span { display: block; color: var(--muted); font-size: var(--t-cap); margin-top: 0.1rem; }
-.opt-book { margin-top: var(--s-3); padding: 0.5rem 0.9rem; font-size: var(--t-sm); }
+.opt-sub { color: var(--muted); font-size: var(--t-sm); margin-top: 0.2rem; font-variant-numeric: tabular-nums; }
+.opt-note { color: var(--fg-soft); font-size: var(--t-sm); margin-top: 0.5rem; line-height: 1.5; }
+.opt-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--border);
+}
+.opt-price { line-height: 1.1; }
+.opt-price b { font-size: 1.2rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.opt-price span { color: var(--muted); font-size: var(--t-cap); margin-left: 0.4rem; }
+.opt-book {
+  flex: none; padding: 0.5rem 1.1rem; font-size: var(--t-sm);
+  border-radius: var(--r-sm);
+}
 
 /* activities: title + detail */
 .acts .act-title { font-weight: 600; letter-spacing: -0.005em; }
